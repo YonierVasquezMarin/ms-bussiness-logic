@@ -1,5 +1,5 @@
 # Access data to Azure
-src/datasources/
+src/datasources/mysql.datasource.ts
 
 # Logs
 logs
