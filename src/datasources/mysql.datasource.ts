@@ -1,16 +1,30 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
-const config = {
+let config = {
   name: 'mysql',
   connector: 'mysql',
   url: '',
-  host: '',
+  host: 'localhost',
   port: 3306,
-  user: '',
-  password: '',
-  database: ''
+  user: 'root',
+  password: 'root',
+  database: 'turism-db'
 };
+
+// If use Azure as db
+if (true) {
+  config = {
+    name: 'mysql',
+    connector: 'mysql',
+    url: '',
+    host: 'turismdb.mysql.database.azure.com',
+    port: 3306,
+    user: 'turi_ad_user',
+    password: 't_db_access123',
+    database: 'turismdb'
+  };
+}
 
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
