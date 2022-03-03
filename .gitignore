@@ -1,6 +1,6 @@
 # Access data to Azure
 src/datasources/mysql.datasource.ts
-src/datasources/DigiCertGlobalRootCA.crt.pem
+DigiCertGlobalRootCA.crt.pem
 
 # Logs
 logs
