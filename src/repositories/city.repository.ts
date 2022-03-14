@@ -15,10 +15,14 @@ export class CityRepository extends DefaultCrudRepository<
 
   public readonly sites: HasManyRepositoryFactory<Site, typeof City.prototype.id>;
 
+  public readonly departamento: BelongsToAccessor<Departamento, typeof City.prototype.id>;
+
   constructor(
     @inject('datasources.mysql') dataSource: MysqlDataSource, @repository.getter('DepartamentoRepository') protected departamentoRepositoryGetter: Getter<DepartamentoRepository>, @repository.getter('SiteRepository') protected siteRepositoryGetter: Getter<SiteRepository>,
   ) {
     super(City, dataSource);
+    this.departamento = this.createBelongsToAccessorFor('departamento', departamentoRepositoryGetter,);
+    this.registerInclusionResolver('departamento', this.departamento.inclusionResolver);
     this.sites = this.createHasManyRepositoryFactoryFor('sites', siteRepositoryGetter,);
     this.registerInclusionResolver('sites', this.sites.inclusionResolver);
     this.region = this.createBelongsToAccessorFor('region', departamentoRepositoryGetter,);

@@ -18,12 +18,12 @@ import {
   response,
 } from '@loopback/rest';
 import {Amusement} from '../models';
-import {AccessTypeRepository} from '../repositories';
+import {AmusementRepository} from '../repositories';
 
 export class AmusementController {
   constructor(
-    @repository(AccessTypeRepository)
-    public accessTypeRepository : AccessTypeRepository,
+    @repository(AmusementRepository)
+    public amusementRepository : AmusementRepository,
   ) {}
 
   @post('/amusements')
@@ -44,7 +44,7 @@ export class AmusementController {
     })
     amusement: Omit<Amusement, 'id'>,
   ): Promise<Amusement> {
-    return this.accessTypeRepository.create(amusement);
+    return this.amusementRepository.create(amusement);
   }
 
   @get('/amusements/count')
@@ -55,7 +55,7 @@ export class AmusementController {
   async count(
     @param.where(Amusement) where?: Where<Amusement>,
   ): Promise<Count> {
-    return this.accessTypeRepository.count(where);
+    return this.amusementRepository.count(where);
   }
 
   @get('/amusements')
@@ -73,7 +73,7 @@ export class AmusementController {
   async find(
     @param.filter(Amusement) filter?: Filter<Amusement>,
   ): Promise<Amusement[]> {
-    return this.accessTypeRepository.find(filter);
+    return this.amusementRepository.find(filter);
   }
 
   @patch('/amusements')
@@ -92,7 +92,7 @@ export class AmusementController {
     amusement: Amusement,
     @param.where(Amusement) where?: Where<Amusement>,
   ): Promise<Count> {
-    return this.accessTypeRepository.updateAll(amusement, where);
+    return this.amusementRepository.updateAll(amusement, where);
   }
 
   @get('/amusements/{id}')
@@ -108,7 +108,7 @@ export class AmusementController {
     @param.path.number('id') id: number,
     @param.filter(Amusement, {exclude: 'where'}) filter?: FilterExcludingWhere<Amusement>
   ): Promise<Amusement> {
-    return this.accessTypeRepository.findById(id, filter);
+    return this.amusementRepository.findById(id, filter);
   }
 
   @patch('/amusements/{id}')
@@ -126,7 +126,7 @@ export class AmusementController {
     })
     amusement: Amusement,
   ): Promise<void> {
-    await this.accessTypeRepository.updateById(id, amusement);
+    await this.amusementRepository.updateById(id, amusement);
   }
 
   @put('/amusements/{id}')
@@ -137,7 +137,7 @@ export class AmusementController {
     @param.path.number('id') id: number,
     @requestBody() amusement: Amusement,
   ): Promise<void> {
-    await this.accessTypeRepository.replaceById(id, amusement);
+    await this.amusementRepository.replaceById(id, amusement);
   }
 
   @del('/amusements/{id}')
@@ -145,6 +145,6 @@ export class AmusementController {
     description: 'Amusement DELETE success',
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    await this.accessTypeRepository.deleteById(id);
+    await this.amusementRepository.deleteById(id);
   }
 }

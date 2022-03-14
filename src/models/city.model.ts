@@ -23,6 +23,9 @@ export class City extends Entity {
   @hasMany(() => Site)
   sites: Site[];
 
+  @belongsTo(() => Departamento)
+  departamentoId: number;
+
   constructor(data?: Partial<City>) {
     super(data);
   }

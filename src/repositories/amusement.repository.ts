@@ -1,10 +1,11 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MysqlDataSource} from '../datasources';
-import {Amusement, AmusementRelations, AccessType, Site, AmusementImage} from '../models';
+import {AccessType, Amusement, AmusementImage, AmusementRelations, AmusementType, Site} from '../models';
 import {AccessTypeRepository} from './access-type.repository';
-import {SiteRepository} from './site.repository';
 import {AmusementImageRepository} from './amusement-image.repository';
+import {AmusementTypeRepository} from './amusement-type.repository';
+import {SiteRepository} from './site.repository';
 
 export class AmusementRepository extends DefaultCrudRepository<
   Amusement,
@@ -18,15 +19,17 @@ export class AmusementRepository extends DefaultCrudRepository<
 
   public readonly amusementImages: HasManyRepositoryFactory<AmusementImage, typeof Amusement.prototype.id>;
 
+  public readonly amusementType: BelongsToAccessor<AmusementType, typeof Amusement.prototype.id>;
+
   constructor(
-    @inject('datasources.mysql') dataSource: MysqlDataSource, @repository.getter('AccessTypeRepository') protected accessTypeRepositoryGetter: Getter<AccessTypeRepository>, @repository.getter('SiteRepository') protected siteRepositoryGetter: Getter<SiteRepository>, @repository.getter('AmusementImageRepository') protected amusementImageRepositoryGetter: Getter<AmusementImageRepository>,
+    @inject('datasources.mysql') dataSource: MysqlDataSource, @repository.getter('AccessTypeRepository') protected accessTypeRepositoryGetter: Getter<AccessTypeRepository>, @repository.getter('SiteRepository') protected siteRepositoryGetter: Getter<SiteRepository>, @repository.getter('AmusementImageRepository') protected amusementImageRepositoryGetter: Getter<AmusementImageRepository>, @repository.getter('AmusementTypeRepository') protected amusementTypeRepositoryGetter: Getter<AmusementTypeRepository>,
   ) {
     super(Amusement, dataSource);
+    this.amusementType = this.createBelongsToAccessorFor('amusementType', amusementTypeRepositoryGetter,);
+    this.registerInclusionResolver('amusementType', this.amusementType.inclusionResolver);
     this.amusementImages = this.createHasManyRepositoryFactoryFor('amusementImages', amusementImageRepositoryGetter,);
     this.registerInclusionResolver('amusementImages', this.amusementImages.inclusionResolver);
     this.site = this.createBelongsToAccessorFor('site', siteRepositoryGetter,);
     this.registerInclusionResolver('site', this.site.inclusionResolver);
-    this.accessType = this.createBelongsToAccessorFor('accessType', accessTypeRepositoryGetter,);
-    this.registerInclusionResolver('accessType', this.accessType.inclusionResolver);
   }
 }

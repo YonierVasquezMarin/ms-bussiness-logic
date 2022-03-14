@@ -23,3 +23,4 @@ export * from './site.controller';
 export * from './amusement.controller';
 export * from './amusements-images.controller';
 export * from './visitor.controller';
+export * from './amusement-amusement-type.controller';
