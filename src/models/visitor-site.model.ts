@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Comment} from './comment.model';
+import {Qualify} from './qualify.model';
 
 @model()
 export class VisitorSite extends Entity {
@@ -15,6 +17,21 @@ export class VisitorSite extends Entity {
   })
   date: string;
 
+  @property({
+    type: 'number',
+  })
+  siteId?: number;
+
+  @property({
+    type: 'number',
+  })
+  visitorId?: number;
+
+  @hasOne(() => Comment)
+  comment: Comment;
+
+  @hasOne(() => Qualify)
+  qualify: Qualify;
 
   constructor(data?: Partial<VisitorSite>) {
     super(data);

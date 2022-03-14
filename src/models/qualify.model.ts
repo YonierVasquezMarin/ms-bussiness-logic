@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {VisitorSite} from './visitor-site.model';
 
 @model()
 export class Qualify extends Entity {
@@ -21,6 +22,8 @@ export class Qualify extends Entity {
   })
   date: string;
 
+  @belongsTo(() => VisitorSite)
+  visitorSiteId: number;
 
   constructor(data?: Partial<Qualify>) {
     super(data);

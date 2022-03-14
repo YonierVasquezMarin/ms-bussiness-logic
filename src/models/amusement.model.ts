@@ -1,4 +1,7 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
+import {AccessType} from './access-type.model';
+import {Site} from './site.model';
+import {AmusementImage} from './amusement-image.model';
 
 @model()
 export class Amusement extends Entity {
@@ -15,6 +18,19 @@ export class Amusement extends Entity {
   })
   name: string;
 
+  @belongsTo(() => AccessType)
+  accessTypeId: number;
+
+  @property({
+    type: 'number',
+  })
+  amusementTypeId?: number;
+
+  @belongsTo(() => Site)
+  siteId: number;
+
+  @hasMany(() => AmusementImage)
+  amusementImages: AmusementImage[];
 
   constructor(data?: Partial<Amusement>) {
     super(data);

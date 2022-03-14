@@ -21,6 +21,10 @@ export class Comment extends Entity {
   })
   text: string;
 
+  @property({
+    type: 'number',
+  })
+  visitorSiteId?: number;
 
   constructor(data?: Partial<Comment>) {
     super(data);

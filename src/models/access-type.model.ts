@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Site} from './site.model';
 
 @model()
 export class AccessType extends Entity {
@@ -15,6 +16,8 @@ export class AccessType extends Entity {
   })
   name: string;
 
+  @hasMany(() => Site)
+  sites: Site[];
 
   constructor(data?: Partial<AccessType>) {
     super(data);

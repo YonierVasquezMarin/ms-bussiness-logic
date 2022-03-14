@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Site} from './site.model';
+import {VisitorSite} from './visitor-site.model';
 
 @model()
 export class Visitor extends Entity {
@@ -25,8 +27,16 @@ export class Visitor extends Entity {
     type: 'string',
     required: true,
   })
+  document: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
   phone: string;
 
+  @hasMany(() => Site, {through: {model: () => VisitorSite}})
+  sites: Site[];
 
   constructor(data?: Partial<Visitor>) {
     super(data);
